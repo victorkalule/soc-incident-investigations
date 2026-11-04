@@ -19,13 +19,19 @@ index=client3 sourcetype="aws:cloudtrail"
 
 The search returned 6,571 events overall. Among the events with the displayed `user_type` values, there were **5,382 IAMUser**, **789 AssumedRole**, and **332 AWS::IAM::Role** events. These three groups do not add up to the overall event count, so I would not assume they cover every event.
 
+![CloudTrail identity types in Splunk](../images/aws-cloudtrail-s3-review/01-cloudtrail-identity-types.png)
+
 I then broke down the IAMUser results by username. That search returned **5,382 events** across four named identities in the training data.
+
+![IAM user activity counts](../images/aws-cloudtrail-s3-review/02-cloudtrail-iam-users.png)
 
 **What this tells me:** The dataset has activity from multiple identity types and individual users. High event volume alone does not establish misuse.
 
 ### 2. Inspect available log sources
 
 The Splunk sourcetype summary included Windows event logs, WinHostMon, AWS CloudWatch and load balancer logs, RDS auditing, Microsoft 365 management activity, HTTP and MySQL network streams, and osquery.
+
+![Available data sources in Splunk](../images/aws-cloudtrail-s3-review/03-available-sourcetypes.png)
 
 I also used the `hardware` sourcetype to look at three hosts and their reported CPU and memory fields. This was a quick environment inventory, not evidence of compromise.
 
@@ -38,11 +44,19 @@ index=client3 sourcetype="aws:cloudtrail" eventName="PutBucketAcl" requestParame
 
 The broad search showed **two matching events**, with timestamps of **13:01:46** and **13:57:54** on August 20, 2018. Restricting the search to the narrower interval in the screenshots returned **one** of those events.
 
+![CloudTrail PutBucketAcl events](../images/aws-cloudtrail-s3-review/06-bucket-acl-search.png)
+
 **What this tells me:** There were bucket ACL-related API calls worth examining further. The screenshots do not show enough policy detail to conclude what permissions changed or whether the change was unauthorized.
 
 ### 4. Correlate S3 object operations
 
 A search of the S3 access logs showed three PUT-related operations around **13:01–13:04**, including an ACL-related request and two object uploads. One query for the `frothly_html_memcached.tar.gz` archive returned **seven matching log entries** involving PUT, GET, and HEAD requests. The reported object size on populated rows was approximately **2.93 MB**.
+
+![S3 access requests for bucket ACL and policy](../images/aws-cloudtrail-s3-review/09-bucket-api-access.png)
+
+![S3 object upload events](../images/aws-cloudtrail-s3-review/10-s3-put-object-events.png)
+
+![S3 archive object size and access activity](../images/aws-cloudtrail-s3-review/13-object-size-successful-query.png)
 
 Earlier filters returned zero results, which underscores the importance of checking the time range, fields, and search syntax before treating an empty result as meaningful.
 
@@ -50,7 +64,9 @@ Earlier filters returned zero results, which underscores the importance of check
 
 ### 5. Check Windows host telemetry
 
-The final screenshots show Windows process monitoring and Sysmon events, including command-line fields in XML event data. These are useful sources for host-level investigation, but the screenshots do not establish that any specific Windows process caused the AWS S3 events.
+The final screenshots show Windows process monitoring and Sysmon events, including command-line fields in XML event data.
+
+![Windows Sysmon event details in Splunk](../images/aws-cloudtrail-s3-review/16-windows-sysmon-event.png) These are useful sources for host-level investigation, but the screenshots do not establish that any specific Windows process caused the AWS S3 events.
 
 ## Investigation outcome
 
@@ -66,6 +82,6 @@ If I were continuing the investigation, I would:
 
 ## Evidence note
 
-The supporting Splunk screenshots are maintained separately pending confirmation that they may be shared publicly and review of any identifiers that need redaction. The observations above reflect the supplied screenshots; this repository does **not** claim that a breach, privilege escalation, or data theft was proven.
+The screenshots in this case study are taken from the authorized training exercise. The [full screenshot gallery](../docs/aws-cloudtrail-s3-screenshot-gallery.md) includes all 16 images, including searches that returned no results. These observations do **not** establish a confirmed breach, privilege escalation, or data theft.
 
 *Completed as part of an authorized cybersecurity training exercise using historical datasets.*

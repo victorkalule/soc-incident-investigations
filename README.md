@@ -30,7 +30,7 @@ This case showed me how much context matters when activity appears across differ
 
 ## Additional log review — AWS CloudTrail and S3
 
-I also documented a separate [Splunk review of AWS identity activity, S3 bucket permissions, and object access](cases/03-aws-cloudtrail-s3-review.md). This training exercise is an **inconclusive log review**, not a confirmed third incident. The related screenshots are being checked for publication permission and redaction before upload.
+I also documented a separate [Splunk review of AWS identity activity, S3 bucket permissions, and object access](cases/03-aws-cloudtrail-s3-review.md). This training exercise is an **inconclusive log review**, not a confirmed third incident. The case study now includes selected Splunk screenshots and a link to the complete 16-image evidence gallery.
 
 ## How I approached the investigations
 
