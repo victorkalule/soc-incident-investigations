@@ -1,74 +1,50 @@
-# SOC Incident Investigations | Splunk & Suricata
+# SOC Incident Investigations
 
-**Project type:** Cybersecurity training investigations using historical/simulated datasets  
-**Focus:** Security alert triage, SIEM investigation, incident analysis, evidence correlation, and response recommendations
+**Training cases using Splunk, Suricata, and MITRE ATT&CK**
 
-## Overview
+## About this project
 
-This portfolio project documents two investigations I performed during my cybersecurity analyst training. I analyzed security telemetry, assessed alert validity and severity, reconstructed attack timelines, mapped observed behavior to the MITRE ATT&CK framework, and recommended containment, recovery, and detection improvements.
+I worked through two incident investigations during my cybersecurity analyst training. In both cases, I had to decide whether suspicious activity represented a real threat, work out the sequence of events, and explain what should happen next.
 
-**These are training cases, not production incidents I handled as an employed SOC analyst.** Dates in the case studies refer to activity in the training datasets, not dates of live incidents I personally responded to.
+These are investigations of historical training datasets, not incidents I responded to in a production SOC.
 
-## Tools and techniques
+## Case 1: Web compromise and ransomware
 
-- **SIEM:** Splunk / Splunk Enterprise Security
-- **Intrusion detection:** Suricata IDS
-- **Log sources:** Windows and Linux telemetry, Sysmon, PowerShell, osquery, network logs, Microsoft 365 / Exchange audit events
-- **Framework:** MITRE ATT&CK
-- **Workflow:** Alert triage → correlation → timeline → severity and scope assessment → incident reporting → containment and detection recommendations
+[Read the case study](cases/01-web-compromise-ransomware.md)
 
-## Investigations
+I investigated a critical Suricata alert and used Splunk evidence to follow activity involving a compromised Joomla site, malicious script execution, and Cerber ransomware affecting a workstation and file share.
 
-| Case | Focus | Triage outcome | Selected findings |
-| --- | --- | --- | --- |
-| [01 — Web compromise and ransomware](cases/01-web-compromise-ransomware.md) | Suricata alert reviewed with Splunk evidence | **True Positive / Critical** | Web scanning and brute force; compromised Joomla site; malicious script execution; Cerber ransomware affecting a workstation and file share |
-| [02 — PowerShell, identity abuse, and email rule tampering](cases/02-powershell-identity-email.md) | Splunk Enterprise Security correlation across endpoints, Linux, and Microsoft 365 | **True Positive / High** | Suspicious PowerShell and C2 activity; unauthorized privileged account; Linux privilege escalation; malicious Exchange transport rule |
+**Triage result:** True positive — Critical
 
-## Investigation workflow
+The main challenge was connecting the activity across systems instead of treating each alert on its own. I documented the affected systems, the evidence supporting the findings, and containment and recovery recommendations.
 
-```mermaid
-flowchart LR
-    A[Initial alert] --> B[Correlate SIEM and endpoint evidence]
-    B --> C[Build attack timeline]
-    C --> D[Determine disposition and severity]
-    D --> E[Map ATT&CK and recommend response]
-```
+## Case 2: PowerShell, account abuse, and email rule changes
 
-## My analytical approach
+[Read the case study](cases/02-powershell-identity-email.md)
 
-1. Reviewed the detection source and initial alert context.
-2. Correlated related events across available log sources and affected assets.
-3. Built a timestamped timeline to identify likely attack stages and scope.
-4. Evaluated evidence to assign a disposition and incident severity.
-5. Mapped observed techniques to MITRE ATT&CK identifiers.
-6. Documented containment, remediation, and SOC detection recommendations.
+Using Splunk Enterprise Security and training logs from Windows, Linux, and Microsoft 365, I investigated suspicious PowerShell activity, unauthorized privilege changes, activity on a Linux server, and a malicious Exchange mail-flow rule.
 
-## Selected ATT&CK mappings
+**Triage result:** True positive — High
 
-- **T1190:** Exploit Public-Facing Application
-- **T1110:** Brute Force
-- **T1059 / T1059.001:** Command and Scripting Interpreter / PowerShell
-- **T1105:** Ingress Tool Transfer
-- **T1486:** Data Encrypted for Impact
-- **T1136.001:** Create Account: Local Account
-- **T1114.003:** Email Collection: Email Forwarding Rule
-- **T1070.003:** Indicator Removal on Host: Clear Command History
+This case showed me how much context matters when activity appears across different log sources. I also made a distinction between signs of possible data theft and confirmed exfiltration.
 
-The mappings reflect the reports' findings and are described in context in the case studies.
+## How I approached the investigations
 
-## What this project demonstrates
+1. Started with the alert and checked the available evidence.
+2. Searched related events in Splunk and compared activity across systems.
+3. Built a timeline of what happened and which assets were involved.
+4. Assessed the severity and documented why the alerts were true positives.
+5. Mapped the relevant behavior to MITRE ATT&CK.
+6. Wrote recommendations for containment, recovery, and better detection.
 
-- Distinguishing confirmed malicious activity from unverified assumptions
-- Prioritizing incidents using technical evidence and business impact
-- Writing clear investigation reports and actionable response recommendations
-- Recognizing how endpoint, web, identity, and cloud events connect in multi-stage attacks
+## Tools and topics
 
-## Evidence and publication notes
+Splunk, Splunk Enterprise Security, Suricata, PowerShell and Windows events, Linux logs, Microsoft 365 audit events, alert triage, incident timelines, and MITRE ATT&CK.
 
-The source reports contain dataset-specific identifiers, account information, and incident artifacts. To avoid disclosing sensitive or training-restricted material, this repository uses **original summary write-ups** rather than copies of the full reports or raw logs. Any screenshots or recreated visualizations added in the future will be sanitized and shared only when authorized.
+The ATT&CK techniques discussed in the case studies include **T1190, T1110, T1059.001, T1105, T1486, T1136.001, and T1114.003**.
 
-No live client data, passwords, malware samples, exploit payloads, or private logs are included.
+## What I learned
 
----
+An initial alert rarely gives the full picture. The useful part of an investigation is showing what the evidence supports, what's still uncertain, and which actions are most important.
 
-*Completed as part of cybersecurity analyst training. Historical timestamps appearing in the investigation materials belong to the case datasets.*
+The case studies are my own summaries. I haven't included raw logs, training account details, credentials, or malware samples.
