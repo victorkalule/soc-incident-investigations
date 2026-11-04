@@ -28,6 +28,10 @@ Using Splunk Enterprise Security and training logs from Windows, Linux, and Micr
 
 This case showed me how much context matters when activity appears across different log sources. I also made a distinction between signs of possible data theft and confirmed exfiltration.
 
+## Additional log review — AWS CloudTrail and S3
+
+I also documented a separate [Splunk review of AWS identity activity, S3 bucket permissions, and object access](cases/03-aws-cloudtrail-s3-review.md). This training exercise is an **inconclusive log review**, not a confirmed third incident. The related screenshots are being checked for publication permission and redaction before upload.
+
 ## How I approached the investigations
 
 1. Started with the alert and checked the available evidence.
