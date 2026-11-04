@@ -24,6 +24,16 @@ This portfolio project documents two investigations I performed during my cybers
 | [01 — Web compromise and ransomware](cases/01-web-compromise-ransomware.md) | Suricata alert reviewed with Splunk evidence | **True Positive / Critical** | Web scanning and brute force; compromised Joomla site; malicious script execution; Cerber ransomware affecting a workstation and file share |
 | [02 — PowerShell, identity abuse, and email rule tampering](cases/02-powershell-identity-email.md) | Splunk Enterprise Security correlation across endpoints, Linux, and Microsoft 365 | **True Positive / High** | Suspicious PowerShell and C2 activity; unauthorized privileged account; Linux privilege escalation; malicious Exchange transport rule |
 
+## Investigation workflow
+
+```mermaid
+flowchart LR
+    A[Initial alert] --> B[Correlate SIEM and endpoint evidence]
+    B --> C[Build attack timeline]
+    C --> D[Determine disposition and severity]
+    D --> E[Map ATT&CK and recommend response]
+```
+
 ## My analytical approach
 
 1. Reviewed the detection source and initial alert context.
@@ -55,7 +65,7 @@ The mappings reflect the reports' findings and are described in context in the c
 
 ## Evidence and publication notes
 
-The source reports contain dataset-specific identifiers, account information, and incident artifacts. To avoid disclosing sensitive or training-restricted material, this repository uses **original summary write-ups** rather than copies of the full reports or raw logs. I will add sanitized screenshots or recreated visualizations only after confirming publication rights.
+The source reports contain dataset-specific identifiers, account information, and incident artifacts. To avoid disclosing sensitive or training-restricted material, this repository uses **original summary write-ups** rather than copies of the full reports or raw logs. Any screenshots or recreated visualizations added in the future will be sanitized and shared only when authorized.
 
 No live client data, passwords, malware samples, exploit payloads, or private logs are included.
 
